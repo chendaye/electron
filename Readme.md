@@ -6,14 +6,16 @@
 
 #> 应用打包
 #> 安装electron-prebuilt，它是一个npm模块，因此我们可以使用Npm来进行安装，它是一个electron的预编译版本  : npm install -g electron-prebuilt
-#> 安装electron-packager ，它也是一个npm模块，是一个用于打包electron应用的工具 :
+#> 安装electron-packager ，它也是一个npm模块，是一个用于打包electron应用的工具 : npm install -g electron-packager
 
 #> 打包
 #> electron-packager 用法： electron-packager <应用目录> <应用名称> <打包平台> --out <输出目录> <架构> <应用版本>
-#> 查看 electron-version : 直接 electron
-#> electron-packager . HelloWorld --win --out ../HelloWorldApp --arch=x64 --version=0.0.1 --electron-version=1.4.13
+#> 查看 electron-version 版本: 直接 electron
+#> 改窗口左上角的图标和任务栏的图标，只需要在打包的命令上加个icon参数就好了
+#> 1, electron-packager . Chendaye666 --win --out ../Exe/Chendaye666 --arch=x64 --version=0.0.1 --electron-version=1.4.13 --icon=assets/app-icon/win/logo.ico
+#> 2, 将上述打包命令卸载 package.json 中 : npm run-script package:win64
 
-#> 效果：直接在当前项目目录的同级目录生成  HelloWorldApp 就是项目 app 目录，HelloWorld.exe
+#> 效果：直接在当前项目目录的同级目录生成  HelloWorldApp 就是项目 app Chendaye666.exe
 
 
 #_________________________________________________________________________________________________
