@@ -14,3 +14,12 @@
 #> electron-packager . HelloWorld --win --out ../HelloWorldApp --arch=x64 --version=0.0.1 --electron-version=1.4.13
 
 #> 效果：直接在当前项目目录的同级目录生成  HelloWorldApp 就是项目 app 目录，HelloWorld.exe
+
+
+#_________________________________________________________________________________________________
+项目目录：
+  assets ：图片 样式等静态资源 jssss
+  main-process : 主进程目录（每一个项目分一个文件夹）
+  renderer-process: 渲染进程，与主进程相对应
+  sections : 放置要渲染的视图，目录结构与渲染进程对应
+  script : 放置项目命令脚本
