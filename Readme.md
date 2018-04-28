@@ -18,6 +18,28 @@
 #> 效果：直接在当前项目目录的同级目录生成  HelloWorldApp 就是项目 app Chendaye666.exe
 
 
+#> 分发
+
+#> 准备
+#> 使用NSIS来打包Electron安装程序
+#> NSIS中文版下载地址：https://pan.baidu.com/s/1mitSQU0
+#> 安装asar (参考官方文档https://www.w3cschool.cn/electronmanual/cexo1qkn.html)   npm install -g asar
+
+#> 打包(https://blog.csdn.net/yu17310133443/article/details/79496499)
+#> 在我们electron最初的项目目录下执行下面命令，生成asar包 ： asar pack ./index.html app.asar  -> 得到app.asar包
+#> 将app.asar放到文章开始图片得到目录下的resources文件夹下(就是第一步打包生成的那个文件夹下的 resources文件夹)
+#> 打开NSIS->选择可视化脚本编辑器->选择使用脚本向导创建新的脚本文件->下一步->设置应用名称，版本号，网址，标志随便自定义一个就好，然后下一步
+#> 设置安装程序图标(图标必须是ico格式)，名称，语言（SimpChinese），界面，然后下一步
+#> 授权文件有就填，没有就填空白   然后下一步
+#> 添加应用程序文件，默认两个文件选中，删除
+#> 添加HelloWorld.exe文件
+#> 点击AddDirTree, 选择HelloWorld-win32-x64(第一次的打包文件夹)文件夹，选中包含子目录，确定，然后下一步
+#> 可修改开始菜单名称，然后下一步
+#> 可设置安装成功后启动的程序，默认就是我们打包后的启动程序，下一步
+#> 设置一些卸载时界面的提示信息，然后下一步
+#> 保存我们的脚本，完成，保存到桌面
+#> 打开脚本文件，编译及运行 开始编译，请等待 编译完就可以安装啦
+
 #_________________________________________________________________________________________________
 项目目录：
   assets ：图片 样式等静态资源 jssss

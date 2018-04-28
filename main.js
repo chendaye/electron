@@ -32,9 +32,8 @@ function initialize () {
 
     mainWindow = new BrowserWindow(windowOptions)
     mainWindow.loadURL(path.join('file://', __dirname, '/index.html'))
-
     // Launch fullscreen with DevTools open, usage: npm run debug
-    if (debug) {
+    if (true) {
       mainWindow.webContents.openDevTools()
       mainWindow.maximize()
       require('devtron').install()
