@@ -19,7 +19,7 @@ function getInstallerConfig () {
   return Promise.resolve({
     appDirectory: path.join(outPath, 'Electron API Demos-win32-ia32'),
     exe: 'Electron API Demos.exe',
-    iconUrl: 'https://raw.githubusercontent.com/electron/electron-api-demos/master/assets/app-icon/win/app.ico',
+    iconUrl: 'https://raw.githubusercontent.com/electron/electron-api-demos/master/extra/app-icon/win/app.ico',
     loadingGif: path.join(rootPath, 'assets', 'img', 'loading.gif'),
     noMsi: true,
     outputDirectory: path.join(outPath, 'windows-installer'),

@@ -1,6 +1,6 @@
 <svg xmlns="http://www.w3.org/2000/svg">
   <!-- Usage -->
-  <!-- <svg class="nav-icon"><use xlink:href="assets/img/icons.svg#icon-xxx"></use></svg> -->
+  <!-- <svg class="nav-icon"><use xlink:href="extra/img/icons.svg#icon-xxx"></use></svg> -->
 
   <symbol id="icon-windows"       viewBox="0 0 14 16"><path d="M5 3h1v1h-1V3zM3 3h1v1h-1V3zM1 3h1v1H1V3zM13 13H1V5h12V13zM13 4H7v-1h6V4zM14 3c0-0.55-0.45-1-1-1H1c-0.55 0-1 0.45-1 1v10c0 0.55 0.45 1 1 1h12c0.55 0 1-0.45 1-1V3z" /></symbol>
   <symbol id="icon-menu"          viewBox="0 0 12 16"><path d="M11.41 9H0.59c-0.59 0-0.59-0.41-0.59-1s0-1 0.59-1h10.81c0.59 0 0.59 0.41 0.59 1s0 1-0.59 1z m0-4H0.59c-0.59 0-0.59-0.41-0.59-1s0-1 0.59-1h10.81c0.59 0 0.59 0.41 0.59 1s0 1-0.59 1zM0.59 11h10.81c0.59 0 0.59 0.41 0.59 1s0 1-0.59 1H0.59c-0.59 0-0.59-0.41-0.59-1s0-1 0.59-1z" /></symbol>

@@ -12,7 +12,7 @@ $('input:text').focus()
           Fedex自动打印
         </h1>
         <h3>使用扫描枪自动打印</h3>
-        <p>在浏览器中打开 <a href="http://cn.fs.com:8006/YX_kVc2yo2cmw0U/Fedex_interface.php">旧版自动打印<span class="u-visible-to-screen-reader">(在新窗口中打开)</span></a>.</p>
+        <p>在浏览器中打开 <a href="http:/scanning_gun/cn.fs.com:8006/YX_kVc2yo2cmw0U/Fedex_interface.php">旧版自动打印<span class="u-visible-to-screen-reader">(在新窗口中打开)</span></a>.</p>
       </div>
     </header>
 
@@ -20,8 +20,9 @@ $('input:text').focus()
       <div class="demo-wrapper">
         <div class="demo-protip">
           <h2>打印信息</h2>
-         <input type="hidden"  id="scanning_gun" />
-        </div>
+         <!--<input type=""  id="scanning_gun" class="append_check" value="" />-->
+          <div class="ui input append_check">
+            <input placeholder="扫描值" type="text" id="scanning_gun" >
       </div>
     </div>
 
