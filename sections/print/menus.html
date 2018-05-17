@@ -20,13 +20,17 @@ $('input:text').focus()
       <div class="demo-wrapper">
         <div class="demo-protip">
           <h2>打印信息</h2>
-         <!--<input type=""  id="scanning_gun" class="append_check" value="" />-->
-          <div class="ui input append_check">
+          <div class="ui input">
             <input placeholder="扫描值" type="text" id="scanning_gun" >
-      </div>
+          </div>
+          <div class="ui toggle checkbox">
+            <input type="checkbox" name="manual_submit" class="manual_submit">
+            <label>手动提交</label>
+          </div>
+          <div class="append_check"></div>
     </div>
 
-    <div class="demo">
+    <div class="demo" hidden>
       <div class="demo-wrapper">
         <button id="context-menu-demo-toggle" class="js-container-target demo-toggle-button">创建上下文菜单
           <div class="demo-meta u-avoid-clicks">支持: Win, macOS, Linux <span class="demo-meta-divider">|</span> 进程: Main</div>
@@ -49,7 +53,6 @@ $('input:text').focus()
 
     <script type="text/javascript">
       require('./renderer-process/print/context-menu')
-      document.getElementById('scanning_gun').focus()
     </script>
 
   </section>
