@@ -3,9 +3,9 @@ const ipc = require('electron').ipcRenderer
 const $ = require('jquery')
 // 引入print
 const printer = require('printer')
-console.log(printer)
 
-const testUrl = 'http://www.rewrite56.com/YX_sJsBEkT12004/Fedex_Ctroller.php'
+// const testUrl = 'http://www.rewrite56.com/YX_sJsBEkT12004/Fedex_Ctroller.php'
+const testUrl = 'http://test.whgxwl.com:8001/YX_sJsBEkT12004/Fedex_Ctroller.php'
 // const testUrl2 = 'http://www.rewrite56.com/YX_sJsBEkT12004/Fedex_auto.php'
 const proUrl = 'http://cn.fs.com:8006/YX_kVc2yo2cmw0U/Fedex_Ctroller.php'
 
@@ -22,6 +22,8 @@ function autoPrint (debug = 'dev') {
   $(document).ready(function () {
     // 获取光标
     $('#scanning_gun').focus()
+    // 获取打印机
+    $('.ui.fluid.dropdown').append(getPrint())
     // 监听输入框粘贴事件(扫描) paste
     $('#scanning_gun').on('paste', function () {
       // 扫描时先清空值
@@ -211,13 +213,13 @@ function checkData (msg) {
     checkStr += '<div class="column"><div class="ui form"><div class="two fields">'
     checkStr += '<div class="field"><label>货件参考信息</label><select class="ui fluid dropdown" name="References_type">'
     checkStr += ' <option value="P_O_NUMBER">P_O_NUMBER</option> ' +
-    '<option value="INVOICE_NUMBER">INVOICE_NUMBER</option>' +
-    '<option value="BILL_OF_LADING ">BILL_OF_LADING</option> ' +
-    '<option value="DEPARTMENT_NUMBER">DEPARTMENT_NUMBER</option> ' +
-    '<option value="ELECTRONIC_PRODUCT_CODE">ELECTRONIC_PRODUCT_CODE</option> ' +
-    '<option value="INTRACOUNTRY_REGULATORY_REFERENCE">INTRACOUNTRY_REGULATORY_REFERENCE</option> ' +
-    '<option value="RMA_ASSOCIATION">RMA_ASSOCIATION</option> <option value="SHIPMENT_INTEGRITY">SHIPMENT_INTEGRITY</option> ' +
-    '<option value="STORE_NUMBER">STORE_NUMBER</option> '
+      '<option value="INVOICE_NUMBER">INVOICE_NUMBER</option>' +
+      '<option value="BILL_OF_LADING ">BILL_OF_LADING</option> ' +
+      '<option value="DEPARTMENT_NUMBER">DEPARTMENT_NUMBER</option> ' +
+      '<option value="ELECTRONIC_PRODUCT_CODE">ELECTRONIC_PRODUCT_CODE</option> ' +
+      '<option value="INTRACOUNTRY_REGULATORY_REFERENCE">INTRACOUNTRY_REGULATORY_REFERENCE</option> ' +
+      '<option value="RMA_ASSOCIATION">RMA_ASSOCIATION</option> <option value="SHIPMENT_INTEGRITY">SHIPMENT_INTEGRITY</option> ' +
+      '<option value="STORE_NUMBER">STORE_NUMBER</option> '
     checkStr += ' </select></div>'
     checkStr += '<div class="field"><label>参考信息(PO 号)</label><input name="ReferencesMsg" maxlength="4" placeholder="PO 号" type="text" value="' + ReferencesMsg + '"></div>'
     checkStr += '</div></div></div>'
@@ -428,6 +430,8 @@ function base64 () {
     data: data,
     success: function (msg) {
       console.log(msg)
+      // 打印机名称
+      let printName = $('.ui.fluid.dropdown').val()
       let status = msg.error
       let responseStr = ''
       if (status === 0) {
@@ -437,9 +441,10 @@ function base64 () {
         $.each(trackNumber, function (i, item) {
           if (item) {
             responseStr += '<tr><td>包裹号</td><td>' + (i + 1) + '</td></tr>'
-            // responseStr += '<tr><td>运单号</td><td><div class="ui transparent input"> <input type="text" value="' + trackNumber[i] + '" class="track_number"></div></td></tr>'
             responseStr += '<tr><td>运单号</td><td><code class="track_number">' + trackNumber[i] + '</code></td></tr>'
+            // 打印标签
             console.log(base64[i])
+            printRaw(base64[i], printName)
           }
         })
         responseStr += '</tbody></table>'
@@ -499,6 +504,10 @@ $('.manual_submit').change(function () {
   $('#scanning_gun').focus()
 })
 
+// 选择打印机
+$('.ui.fluid.dropdown').change(function () {
+  foucsScan()
+})
 // 支付账号
 $(document).on('change', '.field #shipping_type', function () {
   if ($(this).val() !== 'SENDER') {
@@ -513,5 +522,30 @@ $(document).on('change', '.field #shipping_type', function () {
 // 聚焦
 function foucsScan () {
   $('#scanning_gun').focus()
+}
+
+// 获取打印机 \\10.172.0.195\Zebra 2844
+function getPrint () {
+  let prints = printer.getPrinters()
+  let str
+  for (let [index, elem] of prints.entries()) {
+    str += '<option value="' + elem.name + '">' + elem.name + '</option>'
+  }
+  return str
+}
+
+// 打印标签
+function printRaw (code, printerName) {
+  printer.printDirect({
+    data: code,
+    printer: printerName,
+    type: 'RAW',
+    success: function () {
+      console.log('printed')
+    },
+    error: function (err) {
+      console.log(err)
+    }
+  })
 }
 

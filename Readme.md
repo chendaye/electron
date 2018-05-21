@@ -40,7 +40,26 @@
 #> 保存我们的脚本，完成，保存到桌面
 #> 打开脚本文件，编译及运行 开始编译，请等待 编译完就可以安装啦
 
-#> windows下安装python(管理员身份运行) npm --add-python-to-path='true' --debug install --global windows-build-tools
+#> 安装本地模块（rebuild）
+#>npm install --global --production windows-build-tools
+#>npm install --save-dev electron-rebuild
+
+#> Every time you run "npm install", run this
+#>./node_modules/.bin/electron-rebuild
+
+#> On Windows if you have trouble, try:
+#>.\node_modules\.bin\electron-rebuild.cmd
+
+#> windows下安装python(管理员身份运行) https://github.com/nwjs/nw-gyp
+#>npm install -g nw-gyp
+#>npm install --global --production windows-build-tools
+#>nw-gyp rebuild configure --target=0.29.1 --arch=x64   --python=C:\Users\chendaye666\.windows-build-tools\python27\python.exe
+#>npm config set python C:\Users\chendaye666\.windows-build-tools\python27\python.exe
+#>npm install printer --target_arch=x64 --python=C:\Users\chendaye666\.windows-build-tools\python27\python.exe
+
+#>npm 不好用可以用 yarn (https://yarnpkg.com/zh-Hans/docs/install#windows-stable) (https://www.jianshu.com/p/f1d96bdc545b)
+
+#> https://blog.csdn.net/github_36978270/article/details/78460696   vue-electron 项目模板
 #_________________________________________________________________________________________________
 项目目录：
   assets ：图片 样式等静态资源 jssss

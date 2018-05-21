@@ -20,14 +20,28 @@ $('input:text').focus()
       <div class="demo-wrapper">
         <div class="demo-protip">
           <h2>打印信息</h2>
-          <div class="ui input">
-            <input placeholder="扫描值" type="text" id="scanning_gun" >
-          </div>
+            <div class="column">
+                <div class="ui form">
+                    <div class="two fields">
+                        <div class="field">
+                            <input id="scanning_gun"   placeholder="扫描值" type="text" >
+                        </div>
+                        <div class="field">
+                            <select class="ui fluid dropdown" name="References_type">
+                                <option value="">选择打印机</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
           <div class="ui toggle checkbox">
             <input type="checkbox" name="manual_submit" class="manual_submit">
             <label>手动提交</label>
           </div>
           <div class="append_check"></div>
+        </div>
+      </div>
+
     </div>
 
     <div class="demo" hidden>
