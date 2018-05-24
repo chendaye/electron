@@ -23,7 +23,8 @@ function initialize () {
       width: 1080,
       minWidth: 680,
       height: 840,
-      title: app.getName()
+      title: app.getName(),
+      icon: path.join(__dirname, 'assets/img/Iron_Man.png')
     }
 
     if (process.platform === 'linux') {

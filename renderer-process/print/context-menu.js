@@ -24,46 +24,46 @@ function autoPrint (debug = 'dev') {
     $('#scanning_gun').focus()
     // 获取打印机
     $('.ui.fluid.dropdown').append(getPrint())
-    // 监听输入框粘贴事件(扫描) paste
-    $('#scanning_gun').on('paste', function () {
+    // 监听输入框粘贴事件(扫描) paste  keyup--op.keyCode === 13
+    // $('#scanning_gun').on('keyup', function (op) {
+    $('#scanning_gun').on('change', function () {
       // 扫描时先清空值
-      $('#scanning_gun').val(null)
+      // $('#scanning_gun').val(null)
       $('.append_check').html(null)
       // 当粘贴事件触发时，输入框里面还没有数据。 粘贴完成过后 setTimeout() 延时执行，再获取刚刚粘贴完成的值
-      setTimeout(function () {
-        // 扫描枪的值
-        let cw = $('#scanning_gun').val()
-        // 是否手动
-        let manual = $('.manual_submit').attr('checked')
-        if (cw) {
-          let url = debug === 'dev' ? testUrl : proUrl
-          $.ajax({
-            type: 'POST',
-            url: url,
-            data: {
-              'action': 'check',
-              'FS': 'FS2017052393',
-              'CW': cw
-            },
-            dataType: 'json',
-            success: function (msg) {
-              // 获取订单信息
-              checkData(msg)
-              if (manual === 'checked') {
-                $(document).on('click', '#submit', function () {
-                  $(this).addClass('loading')
-                  $('#scanning_gun').next().remove()
-                  base64()
-                })
-              } else {
+      // 扫描枪的值
+      let cw = $('#scanning_gun').val()
+      // 是否手动
+      let manual = $('.manual_submit').attr('checked')
+      if (cw) {
+        let url = debug === 'dev' ? testUrl : proUrl
+        $.ajax({
+          type: 'POST',
+          url: url,
+          data: {
+            'action': 'check',
+            'FS': 'FS2017052393',
+            'CW': cw
+          },
+          dataType: 'json',
+          success: function (msg) {
+            // 获取订单信息
+            checkData(msg)
+            if (manual === 'checked') {
+              $(document).on('click', '#submit', function () {
+                $(this).addClass('loading')
+                $('#scanning_gun').next().remove()
                 base64()
-              }
-              // 打印完成重新获取焦点
-              foucsScan()
+              })
+            } else {
+              base64()
             }
-          })
-        }
-      })
+            // 打印完成重新获取焦点
+            $('#scanning_gun').val(null)
+            foucsScan()
+          }
+        })
+      }
     })
   })
 }
@@ -432,12 +432,14 @@ function base64 () {
       console.log(msg)
       // 打印机名称
       let printName = $('.ui.fluid.dropdown').val()
+      console.log(printName)
       let status = msg.error
       let responseStr = ''
       if (status === 0) {
         let trackNumber = msg.track_number
         let base64 = msg.base64
         responseStr += '<table class="ui celled padded table"><thead><tr><th>信息</th><th>描述</th></tr></thead><tbody>'
+        responseStr += '<tr><td>CW号</td><td>' + CW + '</td></tr>'
         $.each(trackNumber, function (i, item) {
           if (item) {
             responseStr += '<tr><td>包裹号</td><td>' + (i + 1) + '</td></tr>'
@@ -452,6 +454,7 @@ function base64 () {
         let error = msg.note_obj
         // let xml = msg.xml
         responseStr += '<table class="ui celled padded table"><thead><tr><th>信息</th><th>描述</th></tr></thead><tbody>'
+        responseStr += '<tr><td>CW号</td><td>' + CW + '</td></tr>'
         $.each(error, function (i, item) {
           responseStr += '<tr><td>错误：' + (i + 1) + '</td><td></td></tr>'
           responseStr += '<tr><td>Severity</td><td>' + item.Severity + '</td></tr>'
@@ -464,6 +467,7 @@ function base64 () {
       } else if (status === 2) {
         let fault = msg.fault
         responseStr += '<table class="ui celled padded table"><thead><tr><th>信息</th><th>描述</th></tr></thead><tbody>'
+        responseStr += '<tr><td>CW号</td><td>' + CW + '</td></tr>'
         responseStr += '<tr><td>Fault</td><td></td></tr>'
         responseStr += '<tr><td>Code</td><td>' + fault.Code + '</td></tr>'
         responseStr += '<tr><td>String</td><td>' + fault.String + '</td></tr>'
@@ -501,13 +505,8 @@ $('.manual_submit').change(function () {
   } else {
     $(this).attr('checked', 'checked')
   }
-  $('#scanning_gun').focus()
 })
 
-// 选择打印机
-$('.ui.fluid.dropdown').change(function () {
-  foucsScan()
-})
 // 支付账号
 $(document).on('change', '.field #shipping_type', function () {
   if ($(this).val() !== 'SENDER') {
@@ -527,7 +526,7 @@ function foucsScan () {
 // 获取打印机 \\10.172.0.195\Zebra 2844
 function getPrint () {
   let prints = printer.getPrinters()
-  let str
+  let str = '<option value="\\\\10.172.0.195\\Zebra 2844" selected="selected">\\\\10.172.0.195\\Zebra 2844</option>'
   for (let [index, elem] of prints.entries()) {
     str += '<option value="' + elem.name + '">' + elem.name + '</option>'
   }
@@ -548,4 +547,17 @@ function printRaw (code, printerName) {
     }
   })
 }
+
+// 没有显示内容的时候不断获取焦点
+setInterval(function () {
+  $('.scanning_gun').blur(function () {
+    if (!$('.append_check').html()) {
+      $(this).focus()
+    }
+  })
+  if (!$('.append_check').html() && document.activeElement.id !== 'scanning_gun') {
+    foucsScan()
+  }
+}, 100)
+
 
