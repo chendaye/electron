@@ -18,17 +18,16 @@ contextMenuBtn.addEventListener('click', function () {
 /**
  * 扫描枪自动打印
  */
-function autoPrint (debug = 'pro') {
+function autoPrint (debug = 'dev') {
   $(document).ready(function () {
     // 获取光标
     $('#scanning_gun').focus()
     // 获取打印机
     $('.ui.fluid.dropdown').append(getPrint())
     // 监听输入框粘贴事件(扫描) paste  keyup--op.keyCode === 13
-    // $('#scanning_gun').on('keyup', function (op) {
-    $('#scanning_gun').on('change', function () {
+    $('#scanning_gun').on('keyup', function (op) {
+    // $('#scanning_gun').on('change', function () {
       // 扫描时先清空值
-      // $('#scanning_gun').val(null)
       $('.append_check').html(null)
       // 当粘贴事件触发时，输入框里面还没有数据。 粘贴完成过后 setTimeout() 延时执行，再获取刚刚粘贴完成的值
       setTimeout(function () {
@@ -59,9 +58,6 @@ function autoPrint (debug = 'pro') {
               } else {
                 base64()
               }
-              // 打印完成重新获取焦点
-              $('#scanning_gun').val(null)
-              foucsScan()
             }
           })
         }
@@ -492,6 +488,8 @@ function base64 () {
           })
         })
       }
+      // 打印完成重新获取焦点
+      $('#scanning_gun').val(null)
       foucsScan()
     }
   })
