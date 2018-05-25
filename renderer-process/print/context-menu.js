@@ -18,7 +18,7 @@ contextMenuBtn.addEventListener('click', function () {
 /**
  * 扫描枪自动打印
  */
-function autoPrint (debug = 'dev') {
+function autoPrint (debug = 'pro') {
   $(document).ready(function () {
     // 获取光标
     $('#scanning_gun').focus()
@@ -31,39 +31,41 @@ function autoPrint (debug = 'dev') {
       // $('#scanning_gun').val(null)
       $('.append_check').html(null)
       // 当粘贴事件触发时，输入框里面还没有数据。 粘贴完成过后 setTimeout() 延时执行，再获取刚刚粘贴完成的值
-      // 扫描枪的值
-      let cw = $('#scanning_gun').val()
-      // 是否手动
-      let manual = $('.manual_submit').attr('checked')
-      if (cw) {
-        let url = debug === 'dev' ? testUrl : proUrl
-        $.ajax({
-          type: 'POST',
-          url: url,
-          data: {
-            'action': 'check',
-            'FS': 'FS2017052393',
-            'CW': cw
-          },
-          dataType: 'json',
-          success: function (msg) {
-            // 获取订单信息
-            checkData(msg)
-            if (manual === 'checked') {
-              $(document).on('click', '#submit', function () {
-                $(this).addClass('loading')
-                $('#scanning_gun').next().remove()
+      setTimeout(function () {
+        // 扫描枪的值
+        let cw = $('#scanning_gun').val()
+        // 是否手动
+        let manual = $('.manual_submit').attr('checked')
+        if (cw) {
+          let url = debug === 'dev' ? testUrl : proUrl
+          $.ajax({
+            type: 'POST',
+            url: url,
+            data: {
+              'action': 'check',
+              'FS': 'FS2017052393',
+              'CW': cw
+            },
+            dataType: 'json',
+            success: function (msg) {
+              // 获取订单信息
+              checkData(msg)
+              if (manual === 'checked') {
+                $(document).on('click', '#submit', function () {
+                  $(this).addClass('loading')
+                  $('#scanning_gun').next().remove()
+                  base64()
+                })
+              } else {
                 base64()
-              })
-            } else {
-              base64()
+              }
+              // 打印完成重新获取焦点
+              $('#scanning_gun').val(null)
+              foucsScan()
             }
-            // 打印完成重新获取焦点
-            $('#scanning_gun').val(null)
-            foucsScan()
-          }
-        })
-      }
+          })
+        }
+      })
     })
   })
 }
