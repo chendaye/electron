@@ -1,4 +1,4 @@
-const electron = require('electron')
+// const electron = require('electron')
 // const BrowserWindow = electron.BrowserWindow
 // const Menu = electron.Menu
 // const MenuItem = electron.MenuItem

@@ -22,7 +22,7 @@
                             <input id="scanning_gun" class="scanning_gun"  placeholder="扫描值" type="text" >
                         </div>
                         <div class="field">
-                            <select class="ui fluid dropdown" >
+                            <select class="ui fluid dropdown fedex" >
                                 <option value="">选择打印机</option>
                             </select>
                         </div>
@@ -39,26 +39,6 @@
 
     </div>
 
-    <div class="demo" hidden>
-      <div class="demo-wrapper">
-        <button id="context-menu-demo-toggle" class="js-container-target demo-toggle-button">创建上下文菜单
-          <div class="demo-meta u-avoid-clicks">支持: Win, macOS, Linux <span class="demo-meta-divider">|</span> 进程: Main</div>
-        </button>
-        <div class="demo-box">
-          <div class="demo-controls">
-            <button class="demo-button" id="context-menu">查看示例</button>
-          </div>
-          <p>可以使用 <code>Menu</code> 和 <code>MenuItem</code> 模块创建上下文或右键单击菜单. 您可以右键单击此应用程序中的任何位置, 或单击示例按钮以查看示例上下文菜单.</p>
-
-          <p>在这个示例中, 我们使用 <code>ipcRenderer</code> 模块来展示从渲染器进程显式调用它时的上下文菜单.</p>
-          <p>有关所有可用的属性请查看 <a href="https://github.com/electron/electron/blob/master/docs-translations/zh-CN/api/web-contents.md#event-context-menu">上下文菜单事件文档</a>.</p>
-          <h5>主进程</h5>
-          <pre><code data-path="main-process/print/context-menu.js"></code></pre>
-          <h5>渲染器进程</h5>
-          <pre><code data-path="renderer-process/print/context-menu.js"></code></pre>
-        </div>
-      </div>
-    </div>
 
     <script type="text/javascript">
       require('./renderer-process/print/context-menu')
