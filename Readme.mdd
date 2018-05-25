@@ -12,7 +12,7 @@
 #> electron-packager 用法： electron-packager <应用目录> <应用名称> <打包平台> --out <输出目录> <架构> <应用版本>
 #> 查看 electron-version 版本: 直接 electron
 #> 改窗口左上角的图标和任务栏的图标，只需要在打包的命令上加个icon参数就好了
-#> 1, electron-packager . Fedex --win --out ../Exe/Fedex --arch=x64 --version=0.0.1 (--electron-version=1.4.13 可以不指定版本用默认的) --icon=assets/app-icon/win/Iron_Man.ico
+#> 1, electron-packager . Fedex --win --out ../Exe/Fedex --arch=x64 --version=0.0.1 (--electron-version=1.6.18 可以不指定版本用默认的) --icon=assets/app-icon/win/Iron_Man.ico
 #> 2, 将上述打包命令卸载 package.json 中 : npm run-script package:win64
 
 #> 效果：直接在当前项目目录的同级目录生成  HelloWorldApp 就是项目 app Chendaye666.exe

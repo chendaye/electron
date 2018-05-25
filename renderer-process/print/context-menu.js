@@ -503,6 +503,7 @@ $('.manual_submit').change(function () {
   } else {
     $(this).attr('checked', 'checked')
   }
+  foucsScan()
 })
 
 // 支付账号
