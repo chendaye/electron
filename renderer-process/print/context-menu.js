@@ -25,8 +25,8 @@ function autoPrint (debug = 'dev') {
     // 获取打印机
     $('.ui.fluid.dropdown').append(getPrint())
     // 监听输入框粘贴事件(扫描) paste  keyup--op.keyCode === 13
-    $('#scanning_gun').on('keyup', function (op) {
-    // $('#scanning_gun').on('change', function () {
+    // $('#scanning_gun').on('keyup', function (op) {
+    $('#scanning_gun').bind('input porpertychange', function () {
       // 扫描时先清空值
       $('.append_check').html(null)
       // 当粘贴事件触发时，输入框里面还没有数据。 粘贴完成过后 setTimeout() 延时执行，再获取刚刚粘贴完成的值
@@ -427,10 +427,8 @@ function base64 () {
     dataType: 'json',
     data: data,
     success: function (msg) {
-      console.log(msg)
       // 打印机名称
       let printName = $('.ui.fluid.dropdown').val()
-      console.log(printName)
       let status = msg.error
       let responseStr = ''
       if (status === 0) {
