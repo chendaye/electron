@@ -11,7 +11,7 @@ const proUrl = 'http://cn.fs.com:8006/YX_kVc2yo2cmw0U/Fedex_Ctroller.php'
 /**
  * 扫描枪自动打印
  */
-function autoPrint (debug = 'dev') {
+function autoPrint (debug = 'pro') {
   $(document).ready(function () {
     // 获取光标
     $('#scanning_gun').focus()
@@ -46,10 +46,10 @@ function autoPrint (debug = 'dev') {
                 $(document).on('click', '#submit', function () {
                   $(this).addClass('loading')
                   $('#scanning_gun').next().remove()
-                  base64()
+                  base64(debug)
                 })
               } else {
-                base64()
+                base64(debug)
               }
             }
           })
@@ -260,7 +260,7 @@ function checkData (msg) {
  * 测试单号 CW20170527113（一票一件） CW20170524218（一票多件）
  * 请求base64
  */
-function base64 () {
+function base64 (debug) {
   // 账号信息
   let FS = 'FS2017052393'
   let CW = $('#scanning_gun').val()
@@ -413,10 +413,11 @@ function base64 () {
     'PersonName': PersonName,
     'CompanyName': CompanyName
   }
+  let url = debug === 'dev' ? testUrl : proUrl
   $.ajax({
     type: 'POST',
     // async:false,同步执行，一个个来
-    url: testUrl,
+    url: url,
     dataType: 'json',
     data: data,
     success: function (msg) {
@@ -551,4 +552,5 @@ setInterval(function () {
     foucsScan()
   }
 }, 100)
+
 

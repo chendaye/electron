@@ -11,7 +11,7 @@ const proUrl = 'http://cn.fs.com:8006/YX_kVc2yo2cmw0U/Dhl_Ctroller.php'
 /**
  * 扫描枪自动打印
  */
-function autoPrintDhl (debug = 'dev') {
+function autoPrintDhl (debug = 'pro') {
   $(document).ready(function () {
     // 获取光标
     $('#scanning_gun_dhl_dhl').focus()
@@ -27,7 +27,7 @@ function autoPrintDhl (debug = 'dev') {
         // 扫描枪的值
         let cw = $('#scanning_gun_dhl').val()
         // 是否手动
-        let manual = $('.manual_submit').attr('checked')
+        let manual = $('.manual_submit_dhl').attr('checked')
         if (cw) {
           let url = debug === 'dev' ? testUrl : proUrl
           $.ajax({
@@ -45,10 +45,10 @@ function autoPrintDhl (debug = 'dev') {
                 $(document).on('click', '#submit', function () {
                   $(this).addClass('loading')
                   $('#scanning_gun_dhl').next().remove()
-                  base64()
+                  base64(debug)
                 })
               } else {
-                base64()
+                base64(debug)
               }
             }
           })
@@ -99,7 +99,7 @@ function checkData (msg) {
       '<option value="RECIPIENT">收件人</option>' +
       '<option value="THIRD_PARTY">第三方</option> '
     checkStr += ' </select></div>'
-    checkStr += '<div class="field shipping_type_input"><label>公司账号</label><input name="shipping_account" class="shipping_account" maxlength="4" placeholder="公司账号" type="text" value=""></div>'
+    checkStr += '<div class="field shipping_type_input"><label>公司账号</label><input name="shipping_account" class="shipping_account" maxlength="4" placeholder="公司账号" type="text" value="603694967"></div>'
     checkStr += '<div class="field pay_shipping_account"><label>支付账号</label><input name="pay_shipping_account" class="pay_shipping_account" maxlength="4" placeholder="支付账号" type="text" value=""></div>'
     checkStr += '</div></div></div>'
     // 关税支付类型
@@ -158,25 +158,22 @@ function checkData (msg) {
     }
 
     // 包裹信息
-    let parcel = msg.parcel
+    let parcel = msg.parcel.parcel
     checkStr += '<div class="ui huge header">校验包裹信息:</div>'
-    checkStr += '<table class="ui celled padded table"><thead><tr><th>包裹号</th><th>实重</th><th>材积</th><th>最终重量</th><th>长</th><th>宽</th><th>高</th></tr></thead><tbody>'
+    checkStr += '<table class="ui celled padded table"><thead><tr><th>包裹号</th><th>实重</th><th>材积</th><th>最终重量</th></tr></thead><tbody>'
     $.each(parcel, function (i, item) {
       checkStr += '<tr>'
       checkStr += '<td>' + (i + 1) + '</td>'
       checkStr += '<td><div class="ui transparent input"><input name="order_weight[]" style="width: 40px" type="text" value="' + item.order_weight + '">/' + item.weight_unit + '</div></td>'
       checkStr += '<td><div class="ui transparent input"><input name="product_volum[]" style="width: 40px" type="text" value="' + item.product_volume + '">/' + item.volume_unit + '</div></td>'
       checkStr += '<td><div class="ui transparent input"><input name="true_weight[]" style="width: 40px" type="text" value="' + item.true_weight + '">/' + item.true_unit + '</div></td>'
-      checkStr += '<td><div class="ui transparent input"><input name="product_length[]"  style="width: 40px" type="text" value="' + item.product_length + '">/' + item.size_unit + '</div></td>'
-      checkStr += '<td><div class="ui transparent input"><input name="product_width[]" style="width: 40px" type="text" value="' + item.product_width + '">/' + item.size_unit + '</div></td>'
-      checkStr += '<td><div class="ui transparent input"><input name="product_height[]" style="width: 40px" type="text" value="' + item.product_height + '">/' + item.size_unit + '</div></td>'
       checkStr += '</tr>'
     })
     checkStr += '</tbody></table>'
     checkStr += '<div class="ui right labeled input">\n' +
       '  <label for="amount" class="ui label">总重量</label>\n' +
-      '  <input style="width: 60px" name="total_weight" placeholder="总重量" id="amount" type="text" value="' + msg.total_weight + '">\n' +
-      '  <div class="ui basic label">' + msg.unit + '</div>\n' +
+      '  <input style="width: 60px" name="total_weight" placeholder="总重量" id="amount" type="text" value="' + msg.parcel.total_weight + '">\n' +
+      '  <div class="ui basic label">KG</div>\n' +
       '</div>'
 
     // 货物描述
@@ -192,7 +189,7 @@ function checkData (msg) {
       '  <input name="totalVal"  placeholder="EIN/VAT"  type="text" value="' + totalVal + '">\n' +
       '</div>'
     // 提交按钮
-    let manual = $('.manual_submit').attr('checked')
+    let manual = $('.manual_submit_dhl').attr('checked')
     if (manual === 'checked') {
       checkStr += '<div class="ui huge header"></div>'
       checkStr += '<div class="column"><div class="ui form"><div class="two fields"><div class="field"><button class="ui inverted green button" id="submit">提交</button></div></div></div></div>'
@@ -208,35 +205,29 @@ function checkData (msg) {
  * 测试单号 CW20180302335-DE（一票一件） CW20170524218（一票多件）
  * 请求base64
  */
-function base64 () {
+function base64 (debug) {
   // 账号信息
-  let FS = 'FS2017052393'
   let CW = $('#scanning_gun_dhl').val()
   let shippingType = $('select[name="shipping_type"]').val()
   let shippingAccount = $('.shipping_account').val()
+  let payShippingAccount = $('input[name="pay_shipping_account"]').val()
   let taxType = $('select[name="tax_type"]').val()
   let taxAccount = $('input[name="tax_account"]').val()
   // 校验信息
   let StreetLines1 = $('input[name="StreetLines1"]').val()
   let StreetLines2 = $('input[name="StreetLines2"]').val()
+  let StreetLines3 = $('input[name="StreetLines3"]').val()
   let CountryCode = $('input[name="CountryCode"]').val()
   let City = $('input[name="City"]').val()
   let PostalCode = $('input[name="PostalCode"]').val()
   let PhoneNumber = $('input[name="PhoneNumber"]').val()
-  let PhoneExtension = $('input[name="PhoneExtension"]').val()
   let StateOrProvinceCode = $('select[name="StateOrProvinceCode"]').val()
   // 收件人
   let PersonName = $('input[name="PersonName"]').val()
   // 收件公司
   let CompanyName = $('input[name="CompanyName"]').val()
-  // 参考信息
-  let CustomerReferenceType = $('select[name="References_type"]').val()
-  let ReferencesMsg = $('input[name="ReferencesMsg"]').val()
-  let EIN = $('input[name="EIN"]').val()
   // 货物描述
   let Des = $('input[name="Des"]').val()
-  // EIN/VAT
-  let DhlType = $('select[name="DhlType"]').val()
   // 海关总价
   let totalVal = $('input[name="totalVal"]').val()
 
@@ -331,48 +322,42 @@ function base64 () {
   }
   let data = {
     'action': 'request',
-    'FS': FS,
     'CW': CW,
     'shipping_type': shippingType,
     'shipping_account': shippingAccount,
+    'pay_shipping_account': payShippingAccount,
     'tax_type': taxType,
     'tax_account': taxAccount,
     'StreetLines_1': StreetLines1,
     'StreetLines_2': StreetLines2,
+    'StreetLines_3': StreetLines3,
     'CountryCode': CountryCode,
     'City': City,
     'PostalCode': PostalCode,
     'PhoneNumber': PhoneNumber,
-    'PhoneExtension': PhoneExtension,
-    'StateOrProvinceCode': StateOrProvinceCode,
+    'DivisionCode': StateOrProvinceCode,
     'weight': weight,
     'volum': volum,
-    'length': length,
-    'width': width,
-    'height': height,
     'true_weight': trueWeight,
     'total_weight': totalWeight,
-    'CustomerReferenceType': CustomerReferenceType,
-    'ReferenceTypeValue': ReferencesMsg,
-    'EIN': EIN,
     'Des': Des,
-    'Dhl_type': DhlType,
     'total_val': totalVal,
     'PersonName': PersonName,
     'CompanyName': CompanyName
   }
+  let url = debug === 'dev' ? testUrl : proUrl
   $.ajax({
     type: 'POST',
     // async:false,同步执行，一个个来
-    url: testUrl,
+    url: url,
     dataType: 'json',
     data: data,
     success: function (msg) {
       // 打印机名称
       let printName = $('.dhl').val()
-      let status = msg.error
+      let status = msg.status
       let responseStr = ''
-      if (status === 0) {
+      if (status[0] === 'Success') {
         let trackNumber = msg.track_number
         let base64 = msg.base64
         responseStr += '<table class="ui celled padded table"><thead><tr><th>信息</th><th>描述</th></tr></thead><tbody>'
@@ -438,7 +423,7 @@ function base64 () {
 setInterval(autoPrintDhl(), 500)
 
 // 手动提交
-$('.manual_submit').change(function () {
+$('.manual_submit_dhl').change(function () {
   if ($(this).attr('checked') === 'checked') {
     $(this).attr('checked', null)
   } else {
